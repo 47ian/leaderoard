@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pls Donate Leaderboard</title>
+<style>
+body { font-family: sans-serif; background: #f0f0f0; padding: 20px; text-align: center; }
+h1 { margin-bottom: 20px; }
+table { margin: auto; border-collapse: collapse; width: 50%; background: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1);}
+th, td { border: 1px solid #999; padding: 8px; text-align: center; }
+th { background: #555; color: #fff; }
+tr:nth-child(even) { background: #eee; }
+</style>
+</head>
+<body>
+<h1>Pls Donate Leaderboard</h1>
+<table id="leaderboard">
+<tr><th>Username</th><th>Total Donated</th></tr>
+</table>
+<script>
+async function fetchLeaderboard() {
+    const res = await fetch("/leaderboard");
+    const data = await res.json();
+    const table = document.getElementById("leaderboard");
+    table.innerHTML = "<tr><th>Username</th><th>Total Donated</th></tr>";
+    data.forEach(item => {
+        const row = table.insertRow();
+        row.insertCell(0).innerText = item.username;
+        row.insertCell(1).innerText = item.amount;
+    });
+}
+setInterval(fetchLeaderboard, 3000);
+fetchLeaderboard();
+</script>
+</body>
+</html>
